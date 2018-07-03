@@ -28,10 +28,14 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/tiana890/PJSIP-IOS-trunk.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '10.0'
+  s.platform              = :ios, "10.0"
 
-  s.source_files = 'PJSIP-IOS-trunk/Classes/**/*'
-  
+
+  s.preserve_paths        = "ZadarmaPJSIP.framework/*"
+  s.public_header_files   = "ZadarmaPJSIP.framework/Versions/A/Headers/**/*.{h,hpp}"
+  s.source_files          = "ZadarmaPJSIP.framework/Versions/A/Headers/**/*.{h,hpp}"
+  s.vendored_frameworks   = "ZadarmaPJSIP.framework"
   # s.resource_bundles = {
   #   'PJSIP-IOS-trunk' => ['PJSIP-IOS-trunk/Assets/*.png']
   # }
@@ -39,4 +43,8 @@ TODO: Add long description of the pod here.
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
+
+    s.xcconfig = {
+    'GCC_PREPROCESSOR_DEFINITIONS' => 'PJ_AUTOCONF=1',
+    }
 end

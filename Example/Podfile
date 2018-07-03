@@ -1,6 +1,0 @@
-use_frameworks!
-target 'PJSIP-IOS-trunk_Tests' do
-  pod 'PJSIP-IOS-trunk', :path => '../'
-  
-  
-end
