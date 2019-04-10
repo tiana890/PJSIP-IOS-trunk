@@ -1,4 +1,4 @@
-/* $Id: transport.h 5788 2018-05-09 06:58:48Z ming $ */
+/* $Id: transport.h 5901 2018-11-02 06:45:58Z nanang $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -553,7 +553,7 @@ struct pjmedia_transport_info
 
     /**
      * Remote address where RTP/RTCP originated from. In case this transport
-     * hasn't ever received packet, the 
+     * hasn't ever received packet, the address can be invalid (zero).
      */
     pj_sockaddr	    src_rtp_name;
     pj_sockaddr	    src_rtcp_name;
@@ -781,7 +781,14 @@ PJ_INLINE(pj_status_t) pjmedia_transport_attach(pjmedia_transport *tp,
 	pj_bzero(&param, sizeof(param));
 	param.user_data = user_data;
 	pj_sockaddr_cp(&param.rem_addr, rem_addr);
-	pj_sockaddr_cp(&param.rem_rtcp, rem_rtcp);
+	if (rem_rtcp && pj_sockaddr_has_addr(rem_rtcp)) {
+	    pj_sockaddr_cp(&param.rem_rtcp, rem_rtcp);
+	} else {
+	    /* Copy RTCP address from the RTP address, with port + 1 */
+	    pj_memcpy(&param.rem_rtcp, rem_addr, addr_len);
+	    pj_sockaddr_set_port(&param.rem_rtcp,
+				 pj_sockaddr_get_port(rem_addr) + 1);
+	}
 	param.addr_len = addr_len;
 	param.rtp_cb = rtp_cb;
 	param.rtcp_cb = rtcp_cb;

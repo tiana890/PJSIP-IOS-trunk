@@ -1,4 +1,4 @@
-/* $Id: opus.h 5734 2018-02-12 06:18:22Z ming $ */
+/* $Id: opus.h 5831 2018-07-23 06:35:57Z ming $ */
 /*
  * Copyright (C) 2015-2016 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2012-2015 Zaark Technology AB
@@ -139,7 +139,11 @@ pjmedia_codec_opus_get_config( pjmedia_codec_opus_config *cfg );
  * Note that the function will call #pjmedia_codec_mgr_set_default_param().
  *
  * @param cfg		Opus codec configuration.
- * @param param	    	The new default Opus codec parameter.
+ * @param param	    	On input, the default Opus codec parameter to be set.
+ *			On output, the current default Opus codec parameter
+ *			after setting. This may be different from the input
+ *			because some settings can be rejected, or overwritten
+ *			by the Opus codec configuration above.
  *
  * @return		PJ_SUCCESS on success.
  */

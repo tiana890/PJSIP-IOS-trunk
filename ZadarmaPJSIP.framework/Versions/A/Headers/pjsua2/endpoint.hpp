@@ -1,4 +1,4 @@
-/* $Id: endpoint.hpp 5755 2018-03-15 03:00:59Z nanang $ */
+/* $Id: endpoint.hpp 5964 2019-04-08 01:24:10Z riza $ */
 /* 
  * Copyright (C) 2013 Teluu Inc. (http://www.teluu.com)
  *
@@ -415,6 +415,16 @@ struct OnIpChangeProgressParam
     RegProgressParam	regInfo;
 };
 
+/**
+ * Parameter of Endpoint::onCallMediaEvent() callback.
+ */
+struct OnMediaEventParam
+{
+    /**
+     * The media event.
+     */
+    MediaEvent      ev;
+};
 
 //////////////////////////////////////////////////////////////////////////////
 /**
@@ -1587,6 +1597,18 @@ public:
     virtual void onIpChangeProgress(OnIpChangeProgressParam &prm)
     { PJ_UNUSED_ARG(prm); }
 
+    /**
+     * Notification about media events such as video notifications. This
+     * callback will most likely be called from media threads, thus
+     * application must not perform heavy processing in this callback.
+     * If application needs to perform more complex tasks to handle the
+     * event, it should post the task to another thread.
+     *
+     * @param prm	Callback parameter.
+     */
+    virtual void onMediaEvent(OnMediaEventParam &prm)
+    { PJ_UNUSED_ARG(prm); }
+
 private:
     static Endpoint		*instance_;	// static instance
     LogWriter			*writer;	// Custom writer, if any
@@ -1596,6 +1618,8 @@ private:
     CodecInfoVector		 codecInfoList;
     CodecInfoVector		 videoCodecInfoList;
     std::map<pj_thread_t*, pj_thread_desc*> threadDescMap;
+    pj_mutex_t			*threadDescMutex;
+    pj_mutex_t			*mediaListMutex;
 
     /* Pending logging */
     bool			 mainThreadOnly;
@@ -1686,6 +1710,8 @@ private:
                                     pjmedia_stream *strm,
                                     unsigned stream_idx);
     static void on_dtmf_digit(pjsua_call_id call_id, int digit);
+    static void on_dtmf_digit2(pjsua_call_id call_id, 
+			       const pjsua_dtmf_info *info);
     static void on_call_transfer_request(pjsua_call_id call_id,
                                          const pj_str_t *dst,
                                          pjsip_status_code *code);
@@ -1714,6 +1740,13 @@ private:
                                  void *reserved,
                                  pjsip_status_code *code,
                                  pjsua_call_setting *opt);
+    static void on_call_rx_reinvite(pjsua_call_id call_id,
+                                    const pjmedia_sdp_session *offer,
+                                    pjsip_rx_data *rdata,
+                                    void *reserved,
+                                    pj_bool_t *async,
+                                    pjsip_status_code *code,
+                                    pjsua_call_setting *opt);
     static void on_call_tx_offer(pjsua_call_id call_id,
 				 void *reserved,
 				 pjsua_call_setting *opt);
@@ -1723,6 +1756,7 @@ private:
     static pj_status_t
     on_call_media_transport_state(pjsua_call_id call_id,
                                   const pjsua_med_tp_state_info *info);
+    static void on_media_event(pjmedia_event *event);
     static void on_call_media_event(pjsua_call_id call_id,
                                     unsigned med_idx,
                                     pjmedia_event *event);

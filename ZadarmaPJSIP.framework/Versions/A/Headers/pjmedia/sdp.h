@@ -1,4 +1,4 @@
-/* $Id: sdp.h 5748 2018-02-27 03:37:53Z ming $ */
+/* $Id: sdp.h 5820 2018-07-12 08:22:31Z nanang $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -599,6 +599,18 @@ PJ_DECL(pj_status_t) pjmedia_sdp_media_cmp(const pjmedia_sdp_media *sd1,
  */
 PJ_DECL(pj_status_t) pjmedia_sdp_transport_cmp(const pj_str_t *t1,
 					       const pj_str_t *t2);
+
+
+/**
+ * Get media transport protocol info, i.e: base transport and profiles,
+ * from the provided SDP media transport name string.
+ *
+ * @param tp	    The SDP media transport name.
+ *
+ * @return	    Media transport info, combination of transport protocol
+ *		    and profile bit flag defined in pjmedia_tp_proto.
+ */
+PJ_DECL(pj_uint32_t) pjmedia_sdp_transport_get_proto(const pj_str_t *tp);
 
 
 /**

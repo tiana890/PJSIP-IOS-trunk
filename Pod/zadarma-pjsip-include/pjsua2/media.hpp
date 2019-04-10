@@ -1,4 +1,4 @@
-/* $Id: media.hpp 5792 2018-05-15 08:23:44Z ming $ */
+/* $Id: media.hpp 5956 2019-03-21 08:46:13Z nanang $ */
 /*
  * Copyright (C) 2013 Teluu Inc. (http://www.teluu.com)
  *
@@ -107,8 +107,11 @@ struct MediaFormatVideo : public MediaFormat
     pjmedia_format toPj() const;
 };
 
-/** Array of MediaFormat */
-typedef std::vector<MediaFormat> MediaFormatVector;
+/** Array of MediaFormatAudio */
+typedef std::vector<MediaFormatAudio> MediaFormatAudioVector;
+
+/** Array of MediaFormatVideo */
+typedef std::vector<MediaFormatVideo> MediaFormatVideoVector;
 
 /**
  * This structure descibes information about a particular media port that
@@ -759,7 +762,7 @@ struct AudioDevInfo
     /**
      * Array of supported extended audio formats
      */
-    MediaFormatVector extFmt;
+    MediaFormatAudioVector extFmt;
 
     /**
      * Construct from pjmedia_aud_dev_info.
@@ -1397,13 +1400,17 @@ private:
 
 /**
  * Extra audio device. This class allows application to have multiple
- * sound device instances active concurrently. Application may also use
- * this class to improve media clock. Normally media clock is driven by
- * sound device in master port, but unfortunately some sound devices may
- * produce jittery clock. To improve media clock, application can install
- * Null Sound Device (i.e: using AudDevManager::setNullDev()), which will
- * act as a master port, and install the sound device as extra sound device.
+ * sound device instances active concurrently.
+ 
+ * Application may also use this class to improve media clock. Normally
+ * media clock is driven by sound device in master port, but unfortunately
+ * some sound devices may produce jittery clock. To improve media clock,
+ * application can install Null Sound Device (i.e: using
+ * AudDevManager::setNullDev()), which will act as a master port, and
+ * install the sound device as extra sound device.
+ *
  * Note that extra sound device will not have auto-close upon idle feature.
+ * Also note that the extra sound device only supports mono channel.
  */
 class ExtraAudioDevice : public AudioMedia
 {
@@ -1422,8 +1429,9 @@ public:
     virtual ~ExtraAudioDevice();
 
     /**
-     * Open the audio device using format (e.g.: clock rate, channel count,
-     * samples per frame) matched to the conference bridge's format.
+     * Open the audio device using format (e.g.: clock rate, bit per sample,
+     * samples per frame) matched to the conference bridge's format, except
+     * the channel count, which will be set to one (mono channel).
      */
     void open();
 
@@ -1744,7 +1752,7 @@ struct VideoDevInfo
      * value is unknown or should be ignored. When these value are not set
      * to zero, it indicates that the exact format combination is being used.
      */
-    MediaFormatVector fmt;
+    MediaFormatVideoVector fmt;
 
     /**
      * Construct from pjmedia_vid_dev_info.
@@ -2148,6 +2156,81 @@ struct VidCodecParam
     pjmedia_vid_codec_param toPj() const;
 };
 
+
+/*************************************************************************
+* Media event
+*/
+
+/**
+ * This structure describes a media format changed event.
+ */
+struct MediaFmtChangedEvent
+{
+    unsigned newWidth;      /**< The new width.     */
+    unsigned newHeight;     /**< The new height.    */
+};
+
+/**
+ * This structure describes an audio device error event.
+ */
+struct AudDevErrorEvent
+{
+    pjmedia_dir		    dir;	/**< The direction.	    */
+    int			    id;		/**< The audio device ID.   */
+    pj_status_t		    status;	/**< The status code.	    */
+};
+
+/**
+ * Media event data.
+ */
+typedef union MediaEventData {
+    /**
+     * Media format changed event data.
+     */
+    MediaFmtChangedEvent    fmtChanged;
+
+    /**
+     * Audio device error event data.
+     */
+    AudDevErrorEvent	    audDevError;
+    
+    /**
+     * Pointer to storage to user event data, if it's outside
+     * this struct
+     */
+    GenericData		    ptr;
+
+} MediaEventData;
+
+/**
+ * This structure describes a media event. It corresponds to the
+ * pjmedia_event structure.
+ */
+struct MediaEvent
+{
+    /**
+     * The event type.
+     */
+    pjmedia_event_type          type;
+
+    /**
+     * Additional data/parameters about the event. The type of data
+     * will be specific to the event type being reported.
+     */
+    MediaEventData              data;
+    
+    /**
+     * Pointer to original pjmedia_event. Only valid when the struct
+     * is converted from PJSIP's pjmedia_event.
+     */
+    void                       *pjMediaEvent;
+
+public:
+    /**
+     * Convert from pjsip
+     */
+    void fromPj(const pjmedia_event &ev);
+};
 
 /**
  * @}  // PJSUA2_MED

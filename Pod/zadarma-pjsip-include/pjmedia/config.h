@@ -1,4 +1,4 @@
-/* $Id: config.h 5786 2018-04-24 05:27:57Z ming $ */
+/* $Id: config.h 5915 2018-11-23 10:06:51Z nanang $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -358,8 +358,7 @@
  *    implementation to be used.
  *  - #PJMEDIA_RESAMPLE_LIBSAMPLERATE, to use libsamplerate implementation
  *    (a.k.a. Secret Rabbit Code).
- *  - #PJMEDIA_RESAMPLE_SPEEX, to use experimental sample rate conversion in
- *    Speex library.
+ *  - #PJMEDIA_RESAMPLE_SPEEX, to use sample rate conversion in Speex library.
  *  - #PJMEDIA_RESAMPLE_NONE, to disable sample rate conversion. Any calls to
  *    resample function will return error.
  *
@@ -563,6 +562,16 @@
  */
 #ifndef PJMEDIA_RTCP_RX_SDES_BUF_LEN
 #   define PJMEDIA_RTCP_RX_SDES_BUF_LEN		64
+#endif
+
+
+/**
+ * Specify the maximum number of RTCP Feedback capability definition.
+ * 
+ * Default: 16
+ */
+#ifndef PJMEDIA_RTCP_FB_MAX_CAP
+#   define PJMEDIA_RTCP_FB_MAX_CAP		16
 #endif
 
 
@@ -1483,6 +1492,7 @@
 #   define PJMEDIA_HAS_DTMF_FLASH			1
 #endif
 
+
 /**
  * Specify the number of keyframe needed to be sent after the stream is 
  * created. Setting this to 0 will disable it.
@@ -1493,6 +1503,7 @@
 #   define PJMEDIA_VID_STREAM_START_KEYFRAME_CNT	5
 #endif
 
+
 /**
  * Specify the interval to send keyframe after the stream is created, in msec.
  *
@@ -1501,6 +1512,21 @@
 #ifndef PJMEDIA_VID_STREAM_START_KEYFRAME_INTERVAL_MSEC
 #   define PJMEDIA_VID_STREAM_START_KEYFRAME_INTERVAL_MSEC  1000
 #endif
+
+
+/**
+ * Specify minimum delay of video decoding, in milliseconds. Lower value may
+ * degrade video quality significantly in a bad network environment (e.g:
+ * with persistent late and out-of-order RTP packets). Note that the value
+ * must be lower than jitter buffer maximum delay (configurable via
+ * pjmedia_stream_info.jb_max or pjsua_media_config.jb_max).
+ *
+ * Default : 100
+ */
+#ifndef PJMEDIA_VID_STREAM_DECODE_MIN_DELAY_MSEC
+#   define PJMEDIA_VID_STREAM_DECODE_MIN_DELAY_MSEC	    100
+#endif
+
 
 
 /**

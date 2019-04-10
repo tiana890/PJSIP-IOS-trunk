@@ -1,4 +1,4 @@
-/* $Id: errno.h 5748 2018-02-27 03:37:53Z ming $ */
+/* $Id: errno.h 5845 2018-07-26 07:19:39Z nanang $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -626,6 +626,11 @@ PJ_BEGIN_DECL
  * Secure transport required in SDP media descriptor.
  */
 #define PJMEDIA_SRTP_ESDPREQSECTP   (PJMEDIA_ERRNO_START+229)    /* 220229 */
+/**
+ * @hideinitializer
+ * SRTP parameters negotiation still in progress.
+ */
+#define PJMEDIA_SRTP_EKEYNOTREADY   (PJMEDIA_ERRNO_START+230)	 /* 220230 */
 
 /**
  * @hideinitializer
@@ -644,6 +649,12 @@ PJ_BEGIN_DECL
  * Fingerprint from signalling not match to actual fingerprint.
  */
 #define PJMEDIA_SRTP_DTLS_EFPNOTMATCH (PJMEDIA_ERRNO_START+242)  /* 220242 */
+
+/**
+ * @hideinitializer
+ * Fingerprint not found.
+ */
+#define PJMEDIA_SRTP_DTLS_ENOFPRINT (PJMEDIA_ERRNO_START+243)	/* 220243 */
 
 #endif /* PJMEDIA_HAS_SRTP */
 

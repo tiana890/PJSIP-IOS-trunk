@@ -1,4 +1,4 @@
-/* $Id: sip_config.h 5812 2018-06-25 02:58:18Z nanang $ */
+/* $Id: sip_config.h 5869 2018-08-28 05:42:25Z riza $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -770,6 +770,21 @@ PJ_INLINE(pjsip_cfg_t*) pjsip_cfg(void)
 #   define PJSIP_TCP_KEEP_ALIVE_DATA	    { "\r\n\r\n", 4 }
 #endif
 
+
+/**
+ * Initial timeout interval to be applied to incoming transports (i.e. server
+ * side) when no data received after a successful connection. Value is in
+ * seconds. Disable the timeout by setting it to 0.
+ *
+ * Note that even when this is disable, the connection might still get closed
+ * when it is idle or not referred anymore. Have a look at \a
+ * PJSIP_TRANSPORT_SERVER_IDLE_TIME
+ *
+ * Default: 0 (disabled)
+ */
+#ifndef PJSIP_TCP_INITIAL_TIMEOUT
+#   define PJSIP_TCP_INITIAL_TIMEOUT	    0
+#endif
 
 /**
  * Set the interval to send keep-alive packet for TLS transports.

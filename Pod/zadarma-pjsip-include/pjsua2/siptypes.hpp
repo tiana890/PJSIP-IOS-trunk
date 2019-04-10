@@ -1,4 +1,4 @@
-/* $Id: siptypes.hpp 5807 2018-06-20 07:56:45Z nanang $ */
+/* $Id: siptypes.hpp 5821 2018-07-15 14:09:23Z riza $ */
 /*
  * Copyright (C) 2032 Teluu Inc. (http://www.teluu.com)
  *
@@ -143,6 +143,27 @@ struct TlsConfig : public PersistentObject
      * Password to open private key.
      */
     string		password;
+
+    /**
+     * Certificate of Authority (CA) buffer. If CaListFile, certFile or
+     * privKeyFile are set, this setting will be ignored.
+     */
+    string		CaBuf;
+
+    /**
+     * Public endpoint certificate buffer, which will be used as client-
+     * side  certificate for outgoing TLS connection, and server-side
+     * certificate for incoming TLS connection. If CaListFile, certFile or
+     * privKeyFile are set, this setting will be ignored.
+     */
+    string		certBuf;
+
+    /**
+     * Optional private key buffer of the endpoint certificate to be used. 
+     * If CaListFile, certFile or privKeyFile are set, this setting will 
+     * be ignored.
+     */
+    string		privKeyBuf;
 
     /**
      * TLS protocol method from #pjsip_ssl_method. In the future, this field

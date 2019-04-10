@@ -1,4 +1,4 @@
-/* $Id: stream.h 5788 2018-05-09 06:58:48Z ming $ */
+/* $Id: stream.h 5820 2018-07-12 08:22:31Z nanang $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -31,6 +31,7 @@
 #include <ZadarmaPJSIP/pjmedia/jbuf.h>
 #include <ZadarmaPJSIP/pjmedia/port.h>
 #include <ZadarmaPJSIP/pjmedia/rtcp.h>
+#include <ZadarmaPJSIP/pjmedia/rtcp_fb.h>
 #include <ZadarmaPJSIP/pjmedia/transport.h>
 #include <ZadarmaPJSIP/pjmedia/vid_codec.h>
 #include <ZadarmaPJSIP/pjmedia/stream_common.h>
@@ -109,6 +110,8 @@ typedef struct pjmedia_stream_info
 					 stream. If sin_family is zero, 
 					 this will be ignored.		    */
 #endif
+    pjmedia_rtcp_fb_info loc_rtcp_fb; /**< Local RTCP-FB info.		    */
+    pjmedia_rtcp_fb_info rem_rtcp_fb; /**< Remote RTCP-FB info.		    */
     pjmedia_codec_info	fmt;	    /**< Incoming codec format info.	    */
     pjmedia_codec_param *param;	    /**< Optional codec param.		    */
     unsigned		tx_pt;	    /**< Outgoing codec paylaod type.	    */
