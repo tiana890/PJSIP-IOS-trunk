@@ -1,4 +1,4 @@
-/* $Id: sip_transport.h 5884 2018-09-14 01:27:32Z ming $ */
+/* $Id: sip_transport.h 5971 2019-04-23 08:42:45Z nanang $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -810,6 +810,8 @@ struct pjsip_transport
     pj_pool_t		   *pool;	    /**< Pool used by transport.    */
     pj_atomic_t		   *ref_cnt;	    /**< Reference counter.	    */
     pj_lock_t		   *lock;	    /**< Lock object.		    */
+    pj_grp_lock_t	   *grp_lock;	    /**< Group lock for sync with
+					         ioqueue and timer.	    */
     pj_bool_t		    tracing;	    /**< Tracing enabled?	    */
     pj_bool_t		    is_shutdown;    /**< Being shutdown?	    */
     pj_bool_t		    is_destroying;  /**< Destroy in progress?	    */

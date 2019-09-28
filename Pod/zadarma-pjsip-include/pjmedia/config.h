@@ -1,4 +1,4 @@
-/* $Id: config.h 5915 2018-11-23 10:06:51Z nanang $ */
+/* $Id: config.h 6005 2019-05-26 13:18:02Z riza $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -1219,6 +1219,30 @@
  */
 #ifndef PJMEDIA_STREAM_KA_INTERVAL
 #   define PJMEDIA_STREAM_KA_INTERVAL		    5
+#endif
+
+
+/**
+ * Specify the number of identical consecutive error that will be ignored when 
+ * receiving RTP/RTCP data before the library tries to restart the transport.
+ *
+ * When receiving RTP/RTCP data, the library will ignore error besides 
+ * PJ_EPENDING or PJ_ECANCELLED and continue the loop to receive the data. 
+ * If the OS always return error, then the loop will continue non stop.
+ * This setting will limit the number of the identical consecutive error, 
+ * before the library start to restart the transport. If error still happens
+ * after transport restart, then PJMEDIA_EVENT_MEDIA_TP_ERR event will be 
+ * publish as a notification.
+ *
+ * If PJ_ESOCKETSTOP is raised, then transport will be restarted regardless
+ * of this setting.
+ * 
+ * To always ignore the error when receving RTP/RTCP, set this to 0.
+ *
+ * Default : 20
+ */
+#ifndef PJMEDIA_IGNORE_RECV_ERR_CNT
+#   define PJMEDIA_IGNORE_RECV_ERR_CNT		20
 #endif
 
 

@@ -1,4 +1,4 @@
-/* $Id: pjsua.h 5956 2019-03-21 08:46:13Z nanang $ */
+/* $Id: pjsua.h 6035 2019-07-01 07:12:43Z ming $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -3346,7 +3346,7 @@ typedef struct pjsua_turn_config
 
     /**
      * Specify the connection type to be used to the TURN server. Valid
-     * values are PJ_TURN_TP_UDP or PJ_TURN_TP_TCP.
+     * values are PJ_TURN_TP_UDP, PJ_TURN_TP_TCP or PJ_TURN_TP_TLS.
      *
      * Default: PJ_TURN_TP_UDP
      */
@@ -3356,6 +3356,12 @@ typedef struct pjsua_turn_config
      * Specify the credential to authenticate with the TURN server.
      */
     pj_stun_auth_cred	turn_auth_cred;
+
+    /**
+     * This specifies TLS settings for TURN TLS. It is only be used
+     * when this TLS is used to connect to the TURN server.
+     */
+    pj_turn_sock_tls_cfg turn_tls_setting;
 
 } pjsua_turn_config;
 
@@ -3858,6 +3864,24 @@ typedef struct pjsua_acc_config
     pjsua_stun_use 		media_stun_use;
 
     /**
+     * Use loopback media transport. This may be useful if application
+     * doesn't want PJSIP to create real media transports/sockets, such as
+     * when using third party media.
+     *
+     * Default: PJ_FALSE
+     */
+    pj_bool_t			use_loop_med_tp;
+
+    /**
+     * Enable local loopback when loop_med_tp_use is set to PJ_TRUE.
+     * If enabled, packets sent to the transport will be sent back to
+     * the streams attached to the transport.
+     *
+     * Default: PJ_FALSE
+     */
+    pj_bool_t			enable_loopback;
+
+    /**
      * Control the use of ICE in the account. By default, the settings in the
      * \a pjsua_media_config will be used.
      *
@@ -4152,9 +4176,10 @@ typedef struct pjsua_acc_info
     pj_bool_t		has_registration;
 
     /**
-     * An up to date expiration interval for account registration session.
+     * An up to date expiration interval for account registration session,
+     * PJSIP_EXPIRES_NOT_SPECIFIED if the account doesn't have reg session.
      */
-    int			expires;
+    unsigned		expires;
 
     /**
      * Last registration status code. If status code is zero, the account
@@ -6624,7 +6649,7 @@ struct pjsua_media_config
 
     /**
      * Specify the connection type to be used to the TURN server. Valid
-     * values are PJ_TURN_TP_UDP or PJ_TURN_TP_TCP.
+     * values are PJ_TURN_TP_UDP, PJ_TURN_TP_TCP or PJ_TURN_TP_TLS.
      *
      * Default: PJ_TURN_TP_UDP
      */
@@ -6634,6 +6659,12 @@ struct pjsua_media_config
      * Specify the credential to authenticate with the TURN server.
      */
     pj_stun_auth_cred	turn_auth_cred;
+
+    /**
+     * This specifies TLS settings for TLS transport. It is only be used
+     * when this TLS is used to connect to the TURN server.
+     */
+    pj_turn_sock_tls_cfg turn_tls_setting;
 
     /**
      * Specify idle time of sound device before it is automatically closed,

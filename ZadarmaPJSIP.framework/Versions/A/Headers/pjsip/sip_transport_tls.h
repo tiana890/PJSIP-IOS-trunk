@@ -1,4 +1,4 @@
-/* $Id: sip_transport_tls.h 5889 2018-09-21 08:29:12Z nanang $ */
+/* $Id: sip_transport_tls.h 5994 2019-05-15 09:41:52Z nanang $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -417,6 +417,14 @@ PJ_INLINE(void) pjsip_tls_setting_copy(pj_pool_t *pool,
 	    dst->curves[i] = src->curves[i];
     }
 }
+
+
+/**
+ * Wipe out certificates and keys in the TLS setting buffer.
+ *
+ * @param opt	    TLS setting.
+ */
+PJ_DECL(void) pjsip_tls_setting_wipe_keys(pjsip_tls_setting *opt);
 
 
 /**

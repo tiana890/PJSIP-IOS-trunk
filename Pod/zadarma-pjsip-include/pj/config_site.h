@@ -3,4 +3,7 @@
  #define PJ_AUTOCONF 1
 #define PJMEDIA_HAS_VIDEO 0
 #define PJMEDIA_ADVERTISE_RTCP 0
+#define PJSIP_ENCODE_SHORT_HNAME 1
+#define PJMEDIA_ADD_RTPMAP_FOR_STATIC_PT 0
+#define PJSIP_INCLUDE_ALLOW_HDR_IN_DLG 0
 #include <pj/config_site_sample.h>

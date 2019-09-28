@@ -1,4 +1,4 @@
-/* $Id: config.h 5881 2018-09-05 09:07:16Z riza $ */
+/* $Id: config.h 6058 2019-09-03 02:10:45Z ming $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -532,15 +532,46 @@
 
 
 /**
+ * If enabled, when calling pj_pool_release(), the memory pool content
+ * will be wiped out first before released.
+ *
+ * Default: 0
+ */
+#ifndef PJ_POOL_RELEASE_WIPE_DATA
+#  define PJ_POOL_RELEASE_WIPE_DATA 	0
+#endif
+
+
+/**
  * Enable timer heap debugging facility. When this is enabled, application
  * can call pj_timer_heap_dump() to show the contents of the timer heap
  * along with the source location where the timer entries were scheduled.
  * See https://trac.pjsip.org/repos/ticket/1527 for more info.
  *
- * Default: 0
+ * Default: 1
  */
 #ifndef PJ_TIMER_DEBUG
-#  define PJ_TIMER_DEBUG	    0
+#  define PJ_TIMER_DEBUG	    1
+#endif
+
+
+/**
+ * If enabled, the timer heap will keep internal copies of the timer entries.
+ * This will increase the robustness and stability of the timer heap (against
+ * accidental modification or premature deallocation of the timer entries) and
+ * makes it easier to troubleshoot any timer related issues, with the overhead
+ * of additional memory space required.
+ *
+ * Note that the detection against premature deallocation only works if the
+ * freed memory content has changed (such as if it's been reallocated and
+ * overwritten by another data. Alternatively, you can enable
+ * PJ_POOL_RELEASE_WIPE_DATA which will erase the data first before releasing
+ * the memory).
+ *
+ * Default: 1 (enabled)
+ */
+#ifndef PJ_TIMER_HEAP_USE_COPY
+#  define PJ_TIMER_HEAP_USE_COPY    1
 #endif
 
 
@@ -1323,7 +1354,7 @@ PJ_BEGIN_DECL
 #define PJ_VERSION_NUM_MAJOR	2
 
 /** PJLIB version minor number. */
-#define PJ_VERSION_NUM_MINOR	8
+#define PJ_VERSION_NUM_MINOR	9
 
 /** PJLIB version revision number. */
 #define PJ_VERSION_NUM_REV      0

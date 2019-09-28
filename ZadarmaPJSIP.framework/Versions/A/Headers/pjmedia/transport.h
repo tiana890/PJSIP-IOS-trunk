@@ -1,4 +1,4 @@
-/* $Id: transport.h 5901 2018-11-02 06:45:58Z nanang $ */
+/* $Id: transport.h 5989 2019-05-15 00:09:57Z ming $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -484,6 +484,9 @@ typedef enum pjmedia_transport_type
      * transport.
      */
     PJMEDIA_TRANSPORT_TYPE_SRTP,
+
+    /** Loopback media transport */
+    PJMEDIA_TRANSPORT_TYPE_LOOP,
 
     /**
      * Start of user defined transport.

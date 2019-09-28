@@ -1,4 +1,4 @@
-/* $Id: ice_session.h 5339 2016-06-08 03:17:45Z nanang $ */
+/* $Id: ice_session.h 6071 2019-09-23 07:25:41Z ming $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -934,7 +934,10 @@ PJ_DECL(pj_status_t) pj_ice_sess_start_check(pj_ice_sess *ice);
  * @param data		The data or packet to be sent.
  * @param data_len	Size of data or packet, in bytes.
  *
- * @return		PJ_SUCCESS if data is sent successfully.
+ * @return		If the callback \a on_tx_pkt() is called, this
+ *			will contain the return value of the callback.
+ *			Otherwise, it will indicate failure with
+ * 			the appropriate error code.
  */
 PJ_DECL(pj_status_t) pj_ice_sess_send_data(pj_ice_sess *ice,
 					   unsigned comp_id,

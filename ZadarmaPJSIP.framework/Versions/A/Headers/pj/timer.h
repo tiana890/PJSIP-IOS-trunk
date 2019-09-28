@@ -1,4 +1,4 @@
-/* $Id: timer.h 4567 2013-07-19 06:31:28Z bennylp $ */
+/* $Id: timer.h 6058 2019-09-03 02:10:45Z ming $ */
 /* 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -113,6 +113,7 @@ typedef struct pj_timer_entry
      */
     pj_timer_id_t _timer_id;
 
+#if !PJ_TIMER_HEAP_USE_COPY
     /** 
      * The future time when the timer expires, which the value is updated
      * by timer heap when the timer is scheduled.
@@ -128,6 +129,8 @@ typedef struct pj_timer_entry
 #if PJ_TIMER_DEBUG
     const char	*src_file;
     int		 src_line;
+#endif
+
 #endif
 } pj_timer_entry;
 
@@ -252,9 +255,9 @@ PJ_DECL(pj_status_t) pj_timer_heap_schedule( pj_timer_heap_t *ht,
  *
  * @param ht        The timer heap.
  * @param entry     The entry to be registered.
+ * @param delay     The interval to expire.
  * @param id_val    The value to be set to the "id" field of the timer entry
  * 		    once the timer is scheduled.
- * @param delay     The interval to expire.
  * @param grp_lock  The group lock.
  *
  * @return          PJ_SUCCESS, or the appropriate error code.

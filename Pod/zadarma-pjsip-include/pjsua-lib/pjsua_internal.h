@@ -1,4 +1,4 @@
-/* $Id: pjsua_internal.h 5962 2019-04-01 07:28:24Z ming $ */
+/* $Id: pjsua_internal.h 6035 2019-07-01 07:12:43Z ming $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -218,7 +218,9 @@ struct pjsua_srv_pres
     char	    *remote;	    /**< Remote URI.			    */
     int		     acc_id;	    /**< Account ID.			    */
     pjsip_dialog    *dlg;	    /**< Dialog.			    */
-    int		     expires;	    /**< "expires" value in the request.    */
+    unsigned	     expires;	    /**< "expires" value in the request,
+    					 PJSIP_EXPIRES_NOT_SPECIFIED
+    					 if not present.    		    */
 };
 
 /**
@@ -314,6 +316,7 @@ typedef struct pjsua_transport_data
 
     pj_bool_t		     is_restarting;
     pj_status_t		     restart_status;
+    pj_bool_t		     has_bound_addr;
 } pjsua_transport_data;
 
 
