@@ -1,4 +1,4 @@
-/* $Id: config.hpp 6074 2019-09-23 22:47:05Z riza $ */
+/* $Id: config.hpp 6026 2019-06-12 06:00:35Z nanang $ */
 /*
  * Copyright (C) 2013 Teluu Inc. (http://www.teluu.com)
  *
@@ -47,15 +47,6 @@
 #   define PJSUA2_MAX_SDP_BUF_LEN		1024
 #endif
 
-/**
- * Ticket #2189 described some lists of objects which is not thread safe.
- * The ticket deprecated some APIs which uses those lists and introduce new one
- * to replace them. This settings will disable the deprecated API all together.
- * See also https://trac.pjsip.org/repos/ticket/2232
- */
-#ifndef DEPRECATED_FOR_TICKET_2232
-#   define DEPRECATED_FOR_TICKET_2232		1
-#endif
 
 /*
  * C++11 deprecated dynamic exception specification, but SWIG needs it.

@@ -1,4 +1,4 @@
-/* $Id: pjsua_internal.h 6035 2019-07-01 07:12:43Z ming $ */
+/* $Id: pjsua_internal.h 6015 2019-05-29 08:02:02Z ming $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -218,9 +218,7 @@ struct pjsua_srv_pres
     char	    *remote;	    /**< Remote URI.			    */
     int		     acc_id;	    /**< Account ID.			    */
     pjsip_dialog    *dlg;	    /**< Dialog.			    */
-    unsigned	     expires;	    /**< "expires" value in the request,
-    					 PJSIP_EXPIRES_NOT_SPECIFIED
-    					 if not present.    		    */
+    int		     expires;	    /**< "expires" value in the request.    */
 };
 
 /**

@@ -1,4 +1,4 @@
-/* $Id: timer.h 6058 2019-09-03 02:10:45Z ming $ */
+/* $Id: timer.h 5971 2019-04-23 08:42:45Z nanang $ */
 /* 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -113,7 +113,6 @@ typedef struct pj_timer_entry
      */
     pj_timer_id_t _timer_id;
 
-#if !PJ_TIMER_HEAP_USE_COPY
     /** 
      * The future time when the timer expires, which the value is updated
      * by timer heap when the timer is scheduled.
@@ -129,8 +128,6 @@ typedef struct pj_timer_entry
 #if PJ_TIMER_DEBUG
     const char	*src_file;
     int		 src_line;
-#endif
-
 #endif
 } pj_timer_entry;
 

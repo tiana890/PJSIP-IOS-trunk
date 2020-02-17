@@ -1,4 +1,4 @@
-/* $Id: sip_regc.h 6035 2019-07-01 07:12:43Z ming $ */
+/* $Id: sip_regc.h 5356 2016-06-24 13:03:25Z nanang $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -51,7 +51,7 @@ typedef struct pjsip_regc pjsip_regc;
 #define PJSIP_REGC_MAX_CONTACT	10
 
 /** Expiration not specified. */
-#define PJSIP_REGC_EXPIRATION_NOT_SPECIFIED	PJSIP_EXPIRES_NOT_SPECIFIED
+#define PJSIP_REGC_EXPIRATION_NOT_SPECIFIED	((pj_uint32_t)0xFFFFFFFFUL)
 
 /** Buffer to hold all contacts. */
 #define PJSIP_REGC_CONTACT_BUF_SIZE	512
@@ -74,9 +74,7 @@ struct pjsip_regc_cbparam
     int			 code;	    /**< SIP status code received.	    */
     pj_str_t		 reason;    /**< SIP reason phrase received.	    */
     pjsip_rx_data	*rdata;	    /**< The complete received response.    */
-    unsigned		 expiration;/**< Next expiration interval,
-    					 PJSIP_REGC_EXPIRATION_NOT_SPECIFIED
-    					 if not specified.	    	    */
+    int			 expiration;/**< Next expiration interval.	    */
     int			 contact_cnt;/**<Number of contacts in response.    */
     pjsip_contact_hdr	*contact[PJSIP_REGC_MAX_CONTACT]; /**< Contacts.    */
     pj_bool_t		 is_unreg;  /**< Expire header, if any, set to zero?*/
@@ -111,8 +109,8 @@ struct pjsip_regc_info
     pj_str_t	client_uri; /**< Client URI (From header).		    */
     pj_bool_t	is_busy;    /**< Have pending transaction?		    */
     pj_bool_t	auto_reg;   /**< Will register automatically?		    */
-    unsigned	interval;   /**< Registration interval (seconds).	    */
-    unsigned	next_reg;   /**< Time until next registration (seconds).    */
+    int		interval;   /**< Registration interval (seconds).	    */
+    int		next_reg;   /**< Time until next registration (seconds).    */
     pjsip_transport *transport; /**< Last transport used.		    */
 };
 

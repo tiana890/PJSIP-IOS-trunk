@@ -1,4 +1,4 @@
-/* $Id: call.hpp 6051 2019-08-15 05:11:41Z nanang $ */
+/* $Id: call.hpp 6026 2019-06-12 06:00:35Z nanang $ */
 /*
  * Copyright (C) 2012-2013 Teluu Inc. (http://www.teluu.com)
  *
@@ -515,15 +515,6 @@ struct CallInfo
 
 public:
     /**
-     * Default constructor
-     */
-    CallInfo() : id(PJSUA_INVALID_ID),
-		 role(PJSIP_ROLE_UAC),
-		 state(PJSIP_INV_STATE_NULL),
-		 lastStatusCode(PJSIP_SC_NULL)
-    {}
-
-    /**
      * Convert from pjsip
      */
     void fromPj(const pjsua_call_info &pci);
@@ -590,14 +581,6 @@ struct StreamInfo
     VidCodecParam       vidCodecParam;
 
 public:
-    /**
-     * Default constructor
-     */
-    StreamInfo() : type(PJMEDIA_TYPE_NONE),
-		   proto(PJMEDIA_TP_PROTO_NONE),
-		   dir(PJMEDIA_DIR_NONE)
-    {}
-
     /**
      * Convert from pjsip
      */

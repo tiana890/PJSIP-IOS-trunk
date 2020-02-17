@@ -1,4 +1,4 @@
-/* $Id: media.hpp 6074 2019-09-23 22:47:05Z riza $ */
+/* $Id: media.hpp 6026 2019-06-12 06:00:35Z nanang $ */
 /*
  * Copyright (C) 2013 Teluu Inc. (http://www.teluu.com)
  *
@@ -59,13 +59,6 @@ struct MediaFormat
      * The top-most type of the media, as an information.
      */
     pjmedia_type	type;
-
-public:
-    /**
-     * Default constructor
-     */
-    MediaFormat() : id(0), type(PJMEDIA_TYPE_NONE)
-    {}
 };
 
 /**
@@ -452,13 +445,6 @@ struct AudioMediaPlayerInfo
      * The WAV payload size in samples.
      */
     pj_uint32_t		sizeSamples;
-
-public:
-    /**
-     * Default constructor
-     */
-    AudioMediaPlayerInfo() : formatId(PJMEDIA_FORMAT_L16)
-    {}
 };
 
 /**
@@ -910,7 +896,6 @@ public:
      */
     void setPlaybackDev(int playback_dev) const PJSUA2_THROW(Error);
 
-#if !DEPRECATED_FOR_TICKET_2232
     /**
      * Warning: deprecated, use enumDev2 instead. This function is not
      * safe in multithreaded environment.
@@ -921,7 +906,6 @@ public:
      * @return			The list of audio device info.
      */
     const AudioDevInfoVector &enumDev() PJSUA2_THROW(Error);
-#endif
 
     /**
      * Enum all audio devices installed in the system.
@@ -1467,9 +1451,7 @@ public:
     bool getPlc() const PJSUA2_THROW(Error);
 
 private:
-#if !DEPRECATED_FOR_TICKET_2232
     AudioDevInfoVector		 audioDevList;
-#endif
     AudioMedia			*devMedia;
 
     /**
@@ -2001,13 +1983,6 @@ struct VideoDevInfo
      */
     MediaFormatVideoVector fmt;
 
-public:
-    /**
-     * Default constructor
-     */
-    VideoDevInfo() : id(-1), dir(PJMEDIA_DIR_NONE)
-    {}
-
     /**
      * Construct from pjmedia_vid_dev_info.
      */
@@ -2072,7 +2047,6 @@ public:
      */
     VideoDevInfo getDevInfo(int dev_id) const PJSUA2_THROW(Error);
 
-#if !DEPRECATED_FOR_TICKET_2232
     /**
      * Warning: deprecated, use enumDev2() instead. This function is not
      * safe in multithreaded environment.
@@ -2082,7 +2056,6 @@ public:
      * @return		The list of video device info
      */
     const VideoDevInfoVector &enumDev() PJSUA2_THROW(Error);
-#endif
 
     /**
      * Enum all video devices installed in the system.
@@ -2281,9 +2254,7 @@ public:
     			  bool keep=true) PJSUA2_THROW(Error);
 
 private:
-#if !DEPRECATED_FOR_TICKET_2232
     VideoDevInfoVector videoDevList;
-#endif
 
     void clearVideoDevList();
 
@@ -2371,12 +2342,6 @@ struct CodecParamInfo
     pjmedia_format_id fmtId;		/**< Source format, it's format of
 					     encoder input and decoder
 					     output.			    */
-public:
-    /**
-     * Default constructor
-     */
-    CodecParamInfo() : fmtId(PJMEDIA_FORMAT_L16)
-    {}
 };
 
 /**
@@ -2439,14 +2404,6 @@ struct VidCodecParam
 					     true, the codec will apply
 					     format settings specified in
 					     encFmt and decFmt only.	    */
-
-public:
-    /**
-     * Default constructor
-     */
-    VidCodecParam() : dir(PJMEDIA_DIR_NONE),
-		      packing(PJMEDIA_VID_PACKING_UNKNOWN)
-    {}
 
     void fromPj(const pjmedia_vid_codec_param &param);
 
@@ -2523,12 +2480,6 @@ struct MediaEvent
     void                       *pjMediaEvent;
 
 public:
-    /**
-     * Default constructor
-     */
-    MediaEvent() : type(PJMEDIA_EVENT_NONE)
-    {}
-
     /**
      * Convert from pjsip
      */

@@ -1,4 +1,4 @@
-/* $Id: endpoint.hpp 6074 2019-09-23 22:47:05Z riza $ */
+/* $Id: endpoint.hpp 6026 2019-06-12 06:00:35Z nanang $ */
 /* 
  * Copyright (C) 2013 Teluu Inc. (http://www.teluu.com)
  *
@@ -130,13 +130,6 @@ struct SslCertName
 {
     pj_ssl_cert_name_type  type;    	    /**< Name type		*/
     string		   name;    	    /**< The name		*/
-
-public:
-    /**
-     * Default constructor
-     */
-    SslCertName() : type(PJ_SSL_CERT_NAME_UNKNOWN)
-    {}
 };
 
 /** Array of SSL certificate type and name. */
@@ -347,7 +340,6 @@ struct IpChangeParam {
      * Default : PJSUA_TRANSPORT_RESTART_DELAY_TIME
      */
     unsigned	    restartLisDelay;
-
 public:
     /**
      * Constructor.
@@ -1388,7 +1380,6 @@ public:
      */
     unsigned mediaActivePorts() const;
 
-#if !DEPRECATED_FOR_TICKET_2232
     /**
      * Warning: deprecated, use mediaEnumPorts2() instead. This function is
      * not safe in multithreaded environment.
@@ -1398,7 +1389,6 @@ public:
      * @return		The list of media port.
      */
     const AudioMediaVector &mediaEnumPorts() const PJSUA2_THROW(Error);
-#endif
 
     /**
      * Enumerate all audio media port.
@@ -1432,7 +1422,6 @@ public:
      * Codec management operations
      */
 
-#if !DEPRECATED_FOR_TICKET_2232
     /**
      * Warning: deprecated, use codecEnum2() instead. This function is not
      * safe in multithreaded environment.
@@ -1442,7 +1431,6 @@ public:
      * @return		Array of codec info.
      */
     const CodecInfoVector &codecEnum() PJSUA2_THROW(Error);
-#endif
 
     /**
      * Enum all supported codecs in the system.
@@ -1485,7 +1473,6 @@ public:
     void codecSetParam(const string &codec_id,
 		       const CodecParam param) PJSUA2_THROW(Error);
 
-#if !DEPRECATED_FOR_TICKET_2232
     /**
      * Warning: deprecated, use videoCodecEnum2() instead. This function is
      * not safe in multithreaded environment.
@@ -1495,7 +1482,6 @@ public:
      * @return		Array of video codec info.
      */
     const CodecInfoVector &videoCodecEnum() PJSUA2_THROW(Error);
-#endif
 
     /**
      * Enum all supported video codecs in the system.
@@ -1667,18 +1653,14 @@ public:
 private:
     static Endpoint		*instance_;	// static instance
     LogWriter			*writer;	// Custom writer, if any
+    AudioMediaVector 	 	 mediaList;
     AudDevManager		 audioDevMgr;
     VidDevManager		 videoDevMgr;
-#if !DEPRECATED_FOR_TICKET_2232
     CodecInfoVector		 codecInfoList;
     CodecInfoVector		 videoCodecInfoList;
-#endif
     std::map<pj_thread_t*, pj_thread_desc*> threadDescMap;
     pj_mutex_t			*threadDescMutex;
-#if !DEPRECATED_FOR_TICKET_2232
-    AudioMediaVector 	 	 mediaList;
     pj_mutex_t			*mediaListMutex;
-#endif
 
     /* Pending logging */
     bool			 mainThreadOnly;

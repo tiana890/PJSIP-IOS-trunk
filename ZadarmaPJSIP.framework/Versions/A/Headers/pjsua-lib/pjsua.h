@@ -1,4 +1,4 @@
-/* $Id: pjsua.h 6035 2019-07-01 07:12:43Z ming $ */
+/* $Id: pjsua.h 6004 2019-05-24 03:32:17Z riza $ */
 /* 
  * Copyright (C) 2008-2011 Teluu Inc. (http://www.teluu.com)
  * Copyright (C) 2003-2008 Benny Prijono <benny@prijono.org>
@@ -4176,10 +4176,9 @@ typedef struct pjsua_acc_info
     pj_bool_t		has_registration;
 
     /**
-     * An up to date expiration interval for account registration session,
-     * PJSIP_EXPIRES_NOT_SPECIFIED if the account doesn't have reg session.
+     * An up to date expiration interval for account registration session.
      */
-    unsigned		expires;
+    int			expires;
 
     /**
      * Last registration status code. If status code is zero, the account
